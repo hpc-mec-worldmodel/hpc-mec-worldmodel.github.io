@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Official website for Structure Abstraction and Generalization in a Hippocampal-Entorhinal Inspired World Model." />
+    <meta
+      name="keywords"
+      content="structure abstraction, brain-inspired AI, hippocampal-entorhinal coupling, world model, ICML 2026" />
+    <meta property="og:title" content="Structure Abstraction and Generalization in a Hippocampal-Entorhinal Inspired World Model" />
+    <meta property="og:description" content="A brain-inspired hierarchical world model for extracting reusable abstract transition structures from observation-only video." />
+    <meta property="og:image" content="./static/images/Prob-Graph.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>HPC-MEC World Model</title>
+    <link rel="icon" href="./static/images/favicon.svg" />
+    <link rel="stylesheet" href="./static/css/site.css" />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: { fontCache: "global" }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar" aria-label="Primary">
+        <a class="brand" href="#">HPC-MEC World Model</a>
+        <div class="nav-links">
+          <a href="#abstract">Abstract</a>
+          <a href="#circuit">Circuit</a>
+          <a href="#method">Method</a>
+          <a href="#manifold">Manifold</a>
+          <a href="#results">Results</a>
+          <a href="#bibtex">BibTeX</a>
+        </div>
+      </nav>
+
+      <div class="hero-body">
+        <div class="paper-meta">ICML 2026</div>
+        <h1>
+          <span class="title-desktop">Structure Abstraction and Generalization<br />in a Hippocampal-Entorhinal<br />Inspired World Model</span>
+          <span class="title-mobile">Structure<br />Abstraction and<br />Generalization<br />in a Hippocampal-<br />Entorhinal Inspired<br />World Model</span>
+        </h1>
+        <p class="authors">
+          <span>Tianqiu Zhang<span class="equal-star">*</span></span>
+          <span>Muyang Lyu<span class="equal-star">*</span></span>
+          <span>Xiao Liu</span>
+          <span>Si Wu</span>
+        </p>
+        <p class="affiliations">
+          <span>Peking University</span>
+          <span>HHMI Janelia</span>
+        </p>
+        <div class="actions" aria-label="Paper resources">
+          <a class="button primary" href="./static/papers/structure-abstraction-hpc-mec-world-model.pdf">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6" /><path d="M9 15h6" /><path d="M9 18h6" /><path d="M9 12h2" /></svg>
+            Paper
+          </a>
+          <span class="button disabled" aria-disabled="true">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /><path d="m14.5 4-5 16" /></svg>
+            Code (coming soon)
+          </span>
+          <a class="button" href="#bibtex">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" /></svg>
+            Cite
+          </a>
+        </div>
+        <p class="tldr">
+          <strong>TL;DR:</strong> A hippocampal-entorhinal inspired world model separates content-rich episodic states from reusable transition structures, enabling prediction and zero-shot structural transfer across objects, scenes, and simulated environments.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section id="abstract" class="section-pad">
+        <div class="container text">
+          <h2>Abstract</h2>
+          <p>
+            Humans abstract experiences into structured representations to facilitate pattern inference and knowledge transfer. While the hippocampal-entorhinal (HPC-MEC) circuit is known to represent both spatial and conceptual spaces, the mechanisms for concurrently extracting abstract structures from continuous, high-dimensional dynamics remain poorly understood. We propose a brain-inspired hierarchical model that simultaneously infers latent transitions and constructs a predictive visual world model. Our architecture employs an inverse model for structural extraction alongside an HPC-MEC coupling model that dissociates relational structures (MEC) from integrated episodic scenes (HPC). Using primitive transformation dynamics as a benchmark, we demonstrate the model's capacity for structural abstraction. By leveraging velocity-driven path integration, the framework enables robust prediction and structural reuse across diverse contexts, thereby achieving structural generalization. This work provides a novel computational framework for understanding how brain-inspired, self-supervised learning of world models facilitates the acquisition of reusable abstract knowledge.
+          </p>
+        </div>
+      </section>
+
+      <section id="circuit" class="section-pad circuit-intro">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">HPC-MEC Circuit</p>
+            <h2>From Cognitive Map to World Model</h2>
+            <p class="section-copy">
+              The hippocampal-entorhinal circuit suggests a useful division of labor: HPC binds content-rich episodic scenes, while MEC maintains compact relational structure and supports path integration. Our model turns this biological correspondence into a self-supervised visual world model.
+            </p>
+          </div>
+          <figure class="figure-frame schematic-frame">
+            <img src="./static/images/hpc-mec-functional-map.png" alt="Functional correspondence between the hippocampal-entorhinal circuit and the proposed world model." />
+          </figure>
+        </div>
+      </section>
+
+      <section class="teaser section-pad band">
+        <div class="container wide">
+          <div class="section-heading">
+            <p class="eyebrow">Model Overview</p>
+            <h2>Observation-Only Videos Become Reusable Transition Structures</h2>
+            <p class="section-copy">
+              The full pipeline starts from raw visual sequences, separates content and structure, infers latent transitions, then rolls the structured state forward to synthesize future frames.
+            </p>
+          </div>
+          <div class="flow-grid">
+            <article>
+              <span>1</span>
+              <h3>Encode observations</h3>
+              <p>Frames are mapped to visual embeddings with a pretrained multi-scale VQ-VAE.</p>
+            </article>
+            <article>
+              <span>2</span>
+              <h3>Separate HPC and MEC</h3>
+              <p>HPC preserves content-rich episodic states, while MEC compresses relational structure.</p>
+            </article>
+            <article>
+              <span>3</span>
+              <h3>Infer latent transitions</h3>
+              <p>The inverse model extracts low-dimensional dynamics from consecutive MEC states.</p>
+            </article>
+            <article>
+              <span>4</span>
+              <h3>Predict through integration</h3>
+              <p>Latent transitions drive CANN-inspired path integration to generate future observations.</p>
+            </article>
+          </div>
+          <figure class="figure-frame">
+            <img src="./static/images/Model.png" alt="Detailed model architecture for the hierarchical HPC-MEC world model." />
+            <figcaption>
+              The model first extracts visual embeddings, separates content-rich HPC states from compact MEC structure states, and predicts future observations through latent transition-driven dynamics.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="method" class="section-pad">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Method</p>
+            <h2>Hierarchical World Model Inspired by HPC-MEC Coupling</h2>
+          </div>
+          <div class="method-grid">
+            <article>
+              <h3>Visual Inference</h3>
+              <p>Video frames are encoded into observation embeddings, then lifted into hippocampal embeddings that preserve content-rich episodic details before being compressed into medial-entorhinal embeddings.</p>
+            </article>
+            <article>
+              <h3>Path Integration</h3>
+              <p>A CANN-inspired MEC dynamics module updates abstract states with velocity-like latent transitions, producing the next MEC embedding as a structured phase shift.</p>
+            </article>
+            <article>
+              <h3>Inverse Dynamics</h3>
+              <p>An inverse model distills consecutive MEC embeddings into low-dimensional latent transitions, encouraging transitions to capture content-free dynamics rather than appearance.</p>
+            </article>
+          </div>
+          <figure class="figure-frame compact">
+            <img src="./static/images/Prob-Graph.png" alt="Overview of the HPC-MEC coupling model and velocity-like path integration mechanism." />
+          </figure>
+          <div class="equation-grid">
+            <article class="equation-card">
+              <h3>Visual inference flow</h3>
+              <div class="formula">\[
+                \mathbf{o}_{1:T} \rightarrow \mathbf{s}^{\mathrm{inf}}_{1:T}
+                \rightarrow \mathbf{p}^{\mathrm{inf}}_{1:T}
+                \rightarrow \mathbf{g}^{\mathrm{inf}}_{1:T}
+              \]</div>
+              <p>Observations are first embedded visually, then encoded into HPC states and compressed into MEC states.</p>
+            </article>
+            <article class="equation-card">
+              <h3>Latent transition inference</h3>
+              <div class="formula">\[
+                \mathbf{z}_{t}=f_{\mathrm{inverse}}(
+                \mathbf{g}^{\mathrm{inf}}_{t+1} \ominus
+                \mathbf{g}^{\mathrm{inf}}_{t})
+              \]</div>
+              <p>The inverse model reads the difference between consecutive MEC embeddings and extracts content-free transition structure.</p>
+            </article>
+            <article class="equation-card">
+              <h3>Path integration in MEC</h3>
+              <div class="formula">\[
+                \mathbf{g}^{\mathrm{gen}}_{t+1}=
+                \mathbf{g}^{\mathrm{gen}}_{t}\oplus
+                f_{\mathrm{forward}}(\mathbf{z}_{t},
+                \mathbf{g}^{\mathrm{gen}}_{t})
+              \]</div>
+              <p>The transition acts like a velocity input, shifting the MEC state on a CANN-inspired manifold.</p>
+            </article>
+            <article class="equation-card">
+              <h3>Visual feedback correction</h3>
+              <div class="formula">\[
+                \mathbf{g}^{\mathrm{gen}}_{t+1}=
+                \mathbf{g}^{\mathrm{inf}}_{t}\oplus
+                f_{\mathrm{forward}}(\mathbf{z}_{t},
+                \mathbf{g}^{\mathrm{inf}}_{t})
+              \]</div>
+              <p>When observations are available, inferred MEC states correct accumulated path-integration error.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="manifold" class="section-pad band">
+        <div class="container wide">
+          <div class="section-heading">
+            <p class="eyebrow">Manifold Analysis</p>
+            <h2>HPC Keeps Content, MEC Reveals Shared Structure</h2>
+            <p class="section-copy">
+              The manifold analysis probes whether the hierarchy actually separates appearance from transition structure. Rotation datasets make this visible because objects can share the same transformation while differing in shape, texture, and periodicity.
+            </p>
+          </div>
+          <div class="text-figure">
+            <div class="result-copy">
+              <h3>Periodic and in-class sharing</h3>
+              <p>MEC embeddings form cleaner shared rotation trajectories across objects, while HPC embeddings preserve more object identity. This matches the intended division: HPC binds scene-specific episodic content; MEC abstracts relational dynamics that can be reused.</p>
+              <ul class="evidence-list">
+                <li>Periodic objects produce structured circular trajectories in latent space.</li>
+                <li>MEC embeddings overlap more strongly within object classes.</li>
+                <li>Transition probes decode dynamics best from latent transitions and MEC differences.</li>
+              </ul>
+            </div>
+            <figure class="figure-frame">
+              <img src="./static/images/analysis-flat.png" alt="UMAP and classification analysis of HPC and MEC embeddings." />
+              <figcaption>
+                MEC embeddings form clearer shared rotation structures, while HPC embeddings retain more object-specific content.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="table-card">
+            <h3>Embedding and transition probes</h3>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Probe</th>
+                    <th>HPC state</th>
+                    <th>MEC state</th>
+                    <th>HPC transition</th>
+                    <th>MEC transition</th>
+                    <th>Latent transition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Transformation decoding accuracy</td>
+                    <td>\(0.3330 \pm 0.0163\)</td>
+                    <td>\(0.3486 \pm 0.0156\)</td>
+                    <td>\(0.8386 \pm 0.0263\)</td>
+                    <td>\(0.8868 \pm 0.0212\)</td>
+                    <td><strong>\(0.9064 \pm 0.0145\)</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Robotic sequence cosine similarity</td>
+                    <td>\(0.024 \pm 0.061\)</td>
+                    <td>\(0.146 \pm 0.063\)</td>
+                    <td>\(0.114 \pm 0.056\)</td>
+                    <td>\(0.152 \pm 0.057\)</td>
+                    <td><strong>\(0.235 \pm 0.021\)</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="section-pad">
+        <div class="container wide">
+          <div class="section-heading">
+            <p class="eyebrow">Results</p>
+            <h2>Abstraction and Generalization</h2>
+            <p class="section-copy">
+              Once transition structure is separated from visual content, the model can use it in two ways: predict future observations and transfer dynamics into new visual contexts.
+            </p>
+          </div>
+          <div class="result-block">
+            <div class="result-copy">
+              <p class="eyebrow inline">Abstraction</p>
+              <h3>Latent transitions support predictive world modeling</h3>
+              <p>For one-step prediction, the model extracts a transition from the input video and generates the next frame with matching dynamics. In autoregressive rollouts, it composes latent transitions over time; visual feedback can then correct accumulated path-integration error.</p>
+            </div>
+            <figure class="figure-frame">
+              <img src="./static/images/prediction.png" alt="One-step and autoregressive prediction results across SSv2 and COIL-100." />
+              <figcaption>
+                The model supports one-step and autoregressive prediction, and visual feedback reduces accumulated path integration error.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="result-block reverse">
+            <div class="result-copy">
+              <p class="eyebrow inline">Generalization</p>
+              <h3>Reusable structures transfer across objects and scenes</h3>
+              <p>Latent transitions extracted from one sequence can be applied to another context. The generated frames preserve target-scene content while following source-sequence dynamics, demonstrating zero-shot structural reuse across human-object videos and simulated object transformations.</p>
+            </div>
+            <figure class="figure-frame">
+              <img src="./static/images/action-transfer.png" alt="Structural generalization results transferring latent transitions across contexts." />
+              <figcaption>
+                Latent transitions extracted from one context can be reused in different objects and scenes, demonstrating structural generalization.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="ablation-note">
+            <h3>Ablation setup</h3>
+            <p>
+              We evaluate OOD structure reuse by extracting latent transitions from a source sequence and applying them to a different target context. A successful model should preserve target content while following source dynamics. The ablations isolate the main design choices:
+            </p>
+            <ul class="evidence-list">
+              <li><strong>Unified latent space:</strong> removes the MEC layer and performs transition inference directly in the content-rich HPC space, testing whether hierarchical separation is necessary.</li>
+              <li><strong>Without CANN:</strong> replaces CANN-inspired path integration with a standard MLP state-to-state transition, testing whether structured MEC dynamics matter.</li>
+              <li><strong>VQ-VAE ablation:</strong> removes the HPC-MEC hierarchy and learns transitions directly on pretrained visual embeddings, testing whether the structure comes merely from the visual encoder.</li>
+            </ul>
+          </div>
+          <div class="table-card full-table">
+            <h3>Quantitative comparison on OOD structure reuse</h3>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Model</th>
+                    <th>R one-step ↑</th>
+                    <th>R autoreg. ↑</th>
+                    <th>SSIM one-step ↑</th>
+                    <th>SSIM autoreg. ↑</th>
+                    <th>LPIPS one-step ↓</th>
+                    <th>LPIPS autoreg. ↓</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Our model w/ unified latent space</td>
+                    <td>\(2.054 \pm 0.521\)</td>
+                    <td>\(1.542 \pm 0.246\)</td>
+                    <td>\(0.901 \pm 0.007\)</td>
+                    <td>\(0.886 \pm 0.008\)</td>
+                    <td>\(0.126 \pm 0.008\)</td>
+                    <td>\(0.179 \pm 0.008\)</td>
+                  </tr>
+                  <tr>
+                    <td>Our model w/o CANN</td>
+                    <td>\(2.403 \pm 0.553\)</td>
+                    <td>\(1.859 \pm 0.396\)</td>
+                    <td>\(0.894 \pm 0.022\)</td>
+                    <td>\(0.888 \pm 0.009\)</td>
+                    <td>\(0.149 \pm 0.009\)</td>
+                    <td>\(0.177 \pm 0.010\)</td>
+                  </tr>
+                  <tr>
+                    <td>VQ-VAE ablation</td>
+                    <td>\(2.035 \pm 0.229\)</td>
+                    <td>\(1.796 \pm 0.173\)</td>
+                    <td>\(0.892 \pm 0.009\)</td>
+                    <td>\(0.883 \pm 0.009\)</td>
+                    <td>\(0.158 \pm 0.009\)</td>
+                    <td>\(0.177 \pm 0.009\)</td>
+                  </tr>
+                  <tr>
+                    <td>Our model</td>
+                    <td><strong>\(3.201 \pm 0.435\)</strong></td>
+                    <td><strong>\(2.482 \pm 0.460\)</strong></td>
+                    <td><strong>\(0.902 \pm 0.010\)</strong></td>
+                    <td><strong>\(0.891 \pm 0.009\)</strong></td>
+                    <td><strong>\(0.120 \pm 0.008\)</strong></td>
+                    <td><strong>\(0.156 \pm 0.008\)</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="bibtex" class="section-pad">
+        <div class="container text">
+          <h2>BibTeX</h2>
+          <pre><code>@inproceedings{zhang2026structure,
+  title = {Structure Abstraction and Generalization in a Hippocampal-Entorhinal Inspired World Model},
+  author = {Zhang, Tianqiu and Lyu, Muyang and Liu, Xiao and Wu, Si},
+  booktitle = {Proceedings of the International Conference on Machine Learning},
+  year = {2026}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p><sup>*</sup> Equal contribution. Correspondence: Si Wu.</p>
+      <p>Built from the paper assets and inspired by the History-Guided Video Diffusion project page structure.</p>
+    </footer>
+  </body>
+</html>
